@@ -1,0 +1,93 @@
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        // JAVA KBC
+        // Questions
+        String[] questions ={"1. What is the color of an apple?","2. What is the shape of the earth?"};
+        String[][] choices={{"1.Orange","2.Red","3.Who asks this nursery question here?😒","4.Apple"},{"1.Square","2.Flat","3.Sphere","4.Cone?"}};
+        // Answer
+        int[] answers ={2,3};
+        int playerAnswer;
+        File theme = new File("C:\\PROJECTS\\Sounds\\KbcIntro.wav");
+        File questiontheme = new File("C:\\PROJECTS\\Sounds\\KbcQuestionTheme.wav");
+        File wonCorrect = new File("C:\\PROJECTS\\Sounds\\Kbc7Crore.wav");
+        File brainrot = new File("C:\\PROJECTS\\Sounds\\tuntun.wav");
+        // Press Play
+        Scanner scanner = new Scanner(System.in);
+        // welcome to theme
+        try(
+                AudioInputStream audio1 = AudioSystem.getAudioInputStream(theme);
+                AudioInputStream audio2 = AudioSystem.getAudioInputStream(questiontheme);
+                AudioInputStream audio3 = AudioSystem.getAudioInputStream(wonCorrect);
+                AudioInputStream audio4 = AudioSystem.getAudioInputStream(brainrot)
+        ){
+            Clip clip1 = AudioSystem.getClip();
+            Clip clip2 = AudioSystem.getClip();
+            Clip clip3 = AudioSystem.getClip();
+            Clip clip4 = AudioSystem.getClip();
+            System.out.print("Press enter to start: ");
+            scanner.nextLine();
+            // welcome audio
+            clip1.open(audio1);
+            clip1.start();
+            Thread.sleep(13000);
+            clip1.stop();
+            System.out.println("Welcome to Kon Banega CrorePati!🤑🤑 ");
+            Thread.sleep(2000);
+            System.out.print("Press any key to start: ");
+            scanner.nextLine();
+            // question audio
+            clip2.open(audio2);
+            clip2.start();
+            Thread.sleep(5000);
+            clip2.stop();
+            for(int i=0;i<questions.length;i++){
+                System.out.println(questions[i]);
+                Thread.sleep(3000);
+                System.out.println("Here are your options!");
+                for(String option:choices[i]){
+                    System.out.println(option);
+                }
+                System.out.print("Enter your guess: ");
+                playerAnswer = scanner.nextInt();
+                // check
+                if(playerAnswer == answers[i]){
+                    // 7 code audio
+                    System.out.println("Correct answer!");
+                    Thread.sleep(1000);
+                    clip3.open(audio3);
+                    clip3.start();
+                    Thread.sleep(3000);
+                    clip3.stop();
+                }else{
+                    System.out.println("Wrong answer!");
+                    System.out.println("GET BRAIN ROT!🥰");
+                    Thread.sleep(1000);
+                    // brainRot audio
+                    clip4.open(audio4);
+                    clip4.start();
+                    Thread.sleep(8000);
+                    clip4.stop();
+                }
+            }
+
+        }catch(FileNotFoundException e){
+            System.out.println("file not found!");
+        }catch(UnsupportedAudioFileException e){
+            System.out.println(" audio file not supported");
+        }catch(LineUnavailableException e){
+            System.out.println("Audio is unavailable");
+        }catch(IOException e){
+            System.out.println("error reading file!");
+        }catch(InterruptedException e){
+            System.out.println("Thread interrupted");
+        }
+        // Do u want to play again ?
+        scanner.close();
+    }
+}
